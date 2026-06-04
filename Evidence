@@ -1,0 +1,62 @@
+{
+  "lab": "Microsoft Entra ID Identity Operations Lab 06",
+  "focus": "Baseline validation and RBAC state analysis using Microsoft Graph API",
+  "dataSources": [
+    "Microsoft Graph API (Graph Explorer)",
+    "Entra ID tenant metadata",
+    "Group membership endpoint",
+    "Directory roles endpoint (restricted access)",
+    "Lab 05 audit log reference dataset"
+  ],
+  "tenantValidation": {
+    "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#organization",
+    "value": [
+      {
+        "tenantId": "2c0009ed-1f8d-41a1-9d6c-836d6fc700ab",
+        "displayName": "Default Directory",
+        "tenantType": "AAD",
+        "verifiedDomain": "ruialmeidadacunhagmail.onmicrosoft.com"
+      }
+    ]
+  },
+  "identityState": {
+    "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users/$entity",
+    "id": "7cc3ad3f-e473-425e-8b79-f8c47d6c3ead",
+    "displayName": "IAM Lab User 01",
+    "userPrincipalName": "iam-lab-user-01@ruialmeidadacunhagmail.onmicrosoft.com",
+    "accountEnabled": true
+  },
+  "groupMembership": {
+    "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#directoryObjects",
+    "value": [
+      {
+        "@odata.type": "#microsoft.graph.group",
+        "id": "0e7e5c30-9eff-467a-b1c1-44422b438c19",
+        "displayName": null
+      }
+    ]
+  },
+  "directoryRoleAccess": {
+    "error": {
+      "code": "Authorization_RequestDenied",
+      "message": "Insufficient privileges to complete the operation."
+    }
+  },
+  "lab05Reference": {
+    "source": "Lab 05 Identity Drift Analysis",
+    "summary": "Audit log based identity drift analysis identified group membership add/remove cycles driven by administrative actor. Identity state is event-driven and must be reconstructed from logs."
+  },
+  "securityObservations": [
+    "RBAC enforced correctly through restricted Graph API access",
+    "No privileged role visibility available",
+    "Identity is stable in current state snapshot",
+    "No active identity drift detected",
+    "Access is group-based and governed by Entra ID RBAC model"
+  ],
+  "interpretation": {
+    "model": "Hybrid identity analysis (Event + State)",
+    "eventLayer": "Lab 05 audit logs (temporal identity changes)",
+    "stateLayer": "Lab 06 Graph API (current identity configuration)",
+    "conclusion": "Full IAM visibility requires correlation between event-driven logs and current state API responses"
+  }
+}
